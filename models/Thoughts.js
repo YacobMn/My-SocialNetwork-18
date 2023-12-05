@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-
+const ReactionSchema = require('./Reaction')
 
 const thoughtSchema = new Schema(
     {
@@ -9,7 +9,7 @@ const thoughtSchema = new Schema(
             minlenght: 1,
             maxlength: 280
         },
-        createAt: {
+        createdAt: {
             type: Date,
             default: Date.now,
             get: timestamp => dateFormat(timestamp)
@@ -18,14 +18,8 @@ const thoughtSchema = new Schema(
             type: String,
             required: ''
         },
-        reactions: {
-
-
-        }
-
+        reactions: [ReactionSchema]
     }
-   
-
 );
 const Thought = model("Thought", thoughtSchema)
 module.exports = Thought; 

@@ -1,12 +1,20 @@
-/*
-1. read method : 
+const router = require('express').Router();
+const {
+  getReactions,
+  getSingleReaction,
+  createReaction,
+  updateReaction,
+  deleteReaction,
+} = require('../controllers/reactionController.js');
 
-2. creating a single method:
+// /api/Reactions
+router.route('/').get(getReactions).post(createReaction);
 
-3. creating many records:
+// /api/Reactions/:ReactionId
+router
+  .route('/:reactionId')
+  .get(getSingleReaction)
+  .put(updateReaction)
+  .delete(deleteReaction);
 
-4. updating a single record: 
-
-5.  deleting a single record: 
-
-*/
+module.exports = router;
