@@ -4,8 +4,9 @@ module.exports = {
   // Get allReactions
   async getReactions(req, res) {
     try {
-      const Reactions = await Reaction.find();
-      res.json(Reaction);
+      const reactions = await Reaction.find();
+      res.json(reactions)
+      res.status(200).json(reactions);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -13,14 +14,14 @@ module.exports = {
   // Get a reaction
   async getSingleReaction(req, res) {
     try {
-      const Reaction = await Reaction.findOne({ _id: req.params.ReactionId })
+      const reaction = await Reaction.findOne({ _id: req.params.reactionId })
         .select('-__v');
 
-      if (!Reaction) {
-        return res.status(404).json({ message: 'No Reaction with that ID' });
+      if (!reaction) {
+        return res.status(404).json({ message: 'No reaction with that ID' });
       }
 
-      res.json(Reaction);
+      res.json(reaction);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -28,8 +29,8 @@ module.exports = {
   // Create aReaction
   async createReaction(req, res) {
     try {
-      const Reaction = await Reaction.create(req.body);
-      res.json(Reaction);
+      const reaction = await Reaction.create(req.body);
+      res.json(reaction);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -38,14 +39,14 @@ module.exports = {
   // Delete aReaction
   async deleteReaction(req, res) {
     try {
-      const Reaction = await Reaction.findOneAndDelete({ _id: req.params.ReactionId });
+      const reaction = await Reaction.findOneAndDelete({ _id: req.params.reactionId });
 
-      if (!Reaction) {
-        res.status(404).json({ message: 'No Reaction with that ID' });
+      if (!reaction) {
+        res.status(404).json({ message: 'No reaction with that ID' });
       }
 
-      await Student.deleteMany({ _id: { $in:Reaction.students } });
-      res.json({ message: 'Reaction and students deleted!' });
+      
+      res.json({ message: 'reaction and students deleted!' });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -54,17 +55,17 @@ module.exports = {
   // Update 
   async updateReaction(req, res) {
     try {
-      const Reaction = await Reaction.findOneAndUpdate(
-        { _id: req.params.ReactionId },
+      const reaction = await Reaction.findOneAndUpdate(
+        { _id: req.params.reactionId },
         { $set: req.body },
         { runValidators: true, new: true }
       );
 
       if (!Reaction) {
-        res.status(404).json({ message: 'No Reaction with this id!' });
+        res.status(404).json({ message: 'No reaction with this id!' });
       }
 
-      res.json(Reaction);
+      res.json(reaction);
     } catch (err) {
       res.status(500).json(err);
     }

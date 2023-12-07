@@ -2,11 +2,11 @@
   "name": "My-SocialNetwork-18",
   "version": "1.0.0",
   "description": "Instructor demo for populating subdocs",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
     "start": "node index",
-    "seed": "node utils/seed.js",
+    "seed": "node utils/seeds.js",
     "dev": "nodemon server.js"
   },
   "dependencies": {
