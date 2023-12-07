@@ -1,4 +1,4 @@
-const { Reaction, Thoughts } = require('../models');
+const { Thought } = require('../models');
 
 module.exports = {
   // Get allReactions
@@ -29,8 +29,11 @@ module.exports = {
   // Create aReaction
   async createReaction(req, res) {
     try {
-      const reaction = await Reaction.create(req.body);
-      res.json(reaction);
+      const thought = await Thought.findByIdAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { reactions: req.body } },
+        { new: true });
+      res.json(thought);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -39,14 +42,11 @@ module.exports = {
   // Delete aReaction
   async deleteReaction(req, res) {
     try {
-      const reaction = await Reaction.findOneAndDelete({ _id: req.params.reactionId });
-
-      if (!reaction) {
-        res.status(404).json({ message: 'No reaction with that ID' });
-      }
-
-      
-      res.json({ message: 'reaction and students deleted!' });
+      const thought = await Thought.findByIdAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: { _id: req.params.reactionId } } },
+        { new: true });
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -61,7 +61,7 @@ module.exports = {
         { runValidators: true, new: true }
       );
 
-      if (!Reaction) {
+      if (!reaction) {
         res.status(404).json({ message: 'No reaction with this id!' });
       }
 
