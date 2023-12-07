@@ -5,6 +5,6 @@ const usersRouter = require('./routeUser')
 
 router.use('/thoughts', thoughtsRouter)
 // router.use('/reactions', reactionsRouter)
-router.use('./users', usersRouter)
+router.use('/users', usersRouter)
 
 module.exports = router
